@@ -1,0 +1,31 @@
+
+<%= form_with(model: job_posting, local: true, class: "space-y-4") do |f| %>
+  <div>
+    <%= f.label :title, class: "block text-sm font-medium" %>
+    <%= f.text_field :title, class: "w-full px-4 py-2 border rounded" %>
+  </div>
+
+  <div>
+    <%= f.label :description, class: "block text-sm font-medium" %>
+    <%= f.text_area :description, rows: 4, class: "w-full px-4 py-2 border rounded" %>
+  </div>
+
+  <div>
+    <%= f.label :location, class: "block text-sm font-medium" %>
+    <%= f.text_field :location, class: "w-full px-4 py-2 border rounded" %>
+  </div>
+
+  <div>
+    <%= f.label :salary_range, class: "block text-sm font-medium" %>
+    <%= f.text_field :salary_range, class: "w-full px-4 py-2 border rounded" %>
+  </div>
+
+  <div>
+    <%= f.label :job_type, class: "block text-sm font-medium" %>
+    <%= f.text_field :job_type, class: "w-full px-4 py-2 border rounded" %>
+  </div>
+
+  <div>
+    <%= f.submit job_posting.new_record? ? "Create Job" : "Update Job", class: "bg-green-600 text-white px-4 py-2 rounded" %>
+  </div>
+<% end %>

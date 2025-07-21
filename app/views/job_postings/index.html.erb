@@ -1,0 +1,29 @@
+<h1 class="text-2xl font-bold mb-6 text-center">Job Listings</h1>
+
+<div class="flex justify-end mb-4">
+  <%= link_to 'Post New Job', new_job_posting_path, class: "bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700" %>
+</div>
+
+<table class="min-w-full bg-white shadow rounded overflow-hidden">
+  <thead class="bg-gray-100 text-left text-sm uppercase font-semibold text-gray-700">
+    <tr>
+      <th class="px-6 py-4">Title</th>
+      <th class="px-6 py-4">Location</th>
+      <th class="px-6 py-4">Posted By</th>
+      <th class="px-6 py-4">Actions</th>
+    </tr>
+  </thead>
+  <tbody class="text-gray-700 text-sm">
+    <% @job_postings.each do |job| %>
+      <tr class="border-b hover:bg-gray-50">
+        <td class="px-6 py-4"><%= job.title %></td>
+        <td class="px-6 py-4"><%= job.location %></td>
+        <td class="px-6 py-4"><%= job.user&.email || "N/A" %></td>
+        <td class="px-6 py-4 space-x-2">
+          <%= link_to 'View', job_posting_path(job), class: "text-blue-600 hover:underline" %>
+          <%= link_to 'Edit', edit_job_posting_path(job), class: "text-yellow-600 hover:underline" if current_user == job.user %>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>

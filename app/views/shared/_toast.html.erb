@@ -1,0 +1,13 @@
+<% if flash.any? %>
+  <% flash.each do |type, message| %>
+    <div
+      data-controller="toast"
+      data-toast-delay-value="3000"
+      class="toast bg-green-100 border-l-4 border-green-500 text-green-800 p-4 mb-4 rounded shadow-md max-w-xl mx-auto flex justify-between items-start">
+      <div class="flex-1 pr-4"><%= message %></div>
+      <button
+        data-action="click->toast#close"
+        class="font-bold text-xl leading-none text-green-700 hover:text-red-500">&times;</button>
+    </div>
+  <% end %>
+<% end %>
