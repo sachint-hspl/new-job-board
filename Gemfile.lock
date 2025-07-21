@@ -124,7 +124,7 @@ GEM
       activesupport (>= 6.1)
     i18n (1.14.7)
       concurrent-ruby (~> 1.0)
-    importmap-rails (2.1.0)
+    importmap-rails (1.2.3)
       actionpack (>= 6.0.0)
       activesupport (>= 6.0.0)
       railties (>= 6.0.0)
@@ -391,7 +391,7 @@ DEPENDENCIES
   capybara
   debug
   devise (~> 4.9)
-  importmap-rails
+  importmap-rails (~> 1.2)
   jbuilder
   kamal
   pg (~> 1.1)

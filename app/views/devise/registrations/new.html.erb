@@ -1,33 +1,36 @@
-<h2>Sign up</h2>
+<h2 class="text-2xl font-bold text-center mb-6">Sign up</h2>
 
-<%= form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>
-  <%= devise_error_messages! %>
+<div class="max-w-md mx-auto bg-white p-8 rounded-xl shadow-md">
+  <%= form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>
+    <%= devise_error_messages! %>
 
-  <!-- Email -->
-  <div class="field">
-    <%= f.label :email %><br />
-    <%= f.email_field :email, autofocus: true, autocomplete: "email" %>
-  </div>
+    <!-- Email -->
+    <div class="mb-4">
+      <%= f.label :email, class: "block text-sm font-medium text-gray-700" %>
+      <%= f.email_field :email, autofocus: true, autocomplete: "email", class: "mt-1 block w-full py-3 pl-4 text-base border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500" %>
+    </div>
 
-  <!-- Password -->
-  <div class="field">
-    <%= f.label :password %><br />
-    <%= f.password_field :password, autocomplete: "new-password" %>
-  </div>
+    <!-- Password -->
+    <div class="mb-4">
+      <%= f.label :password, class: "block text-sm font-medium text-gray-700" %>
+      <%= f.password_field :password, autocomplete: "new-password", class: "mt-1 block w-full py-3 pl-4 text-base border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500" %>
+    </div>
 
-  <!-- Confirm Password -->
-  <div class="field">
-    <%= f.label :password_confirmation %><br />
-    <%= f.password_field :password_confirmation, autocomplete: "new-password" %>
-  </div>
+    <!-- Confirm Password -->
+    <div class="mb-4">
+      <%= f.label :password_confirmation, class: "block text-sm font-medium text-gray-700" %>
+      <%= f.password_field :password_confirmation, autocomplete: "new-password", class: "mt-1 block w-full py-3 pl-4 text-base border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500" %>
+    </div>
 
-  <!-- Role Selection (newly added) -->
-  <div class="field">
-    <%= f.label :name, "Sign up as:" %><br />
-    <%= f.select :name, options_for_select(['EMPLOYER', 'JOB_SEEKER']), {}, class: "form-control" %>
-  </div>
+    <!-- Role Selection -->
+    <div class="mb-6">
+      <%= f.label :name, "Sign up as:", class: "block text-sm font-medium text-gray-700" %>
+      <%= f.select :name, options_for_select(['EMPLOYER', 'JOB_SEEKER']), {}, class: "mt-1 block w-full py-3 pl-4 text-base border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500" %>
+    </div>
 
-  <div class="actions">
-    <%= f.submit "Sign up" %>
-  </div>
-<% end %>
+    <!-- Submit -->
+    <div>
+      <%= f.submit "Sign up", class: "w-full bg-blue-600 text-white py-3 text-base rounded hover:bg-blue-700" %>
+    </div>
+  <% end %>
+</div>

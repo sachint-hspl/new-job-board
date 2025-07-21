@@ -1,15 +1,20 @@
 # app/controllers/job_postings_controller.rb
 class JobPostingsController < ApplicationController
-  before_action :authenticate_user!
+  before_action :authenticate_user!, except: [:index, :show]
   before_action :set_job_posting, only: %i[show edit update destroy]
   before_action :authorize_employer!, only: %i[new create edit update destroy]
+
 
   # def index
   #   @job_postings = JobPosting.all
   # end
 
+  # def index
+  #   @job_postings = JobPosting.includes(:user).all
+  # end
+
   def index
-    @job_postings = JobPosting.includes(:user).all
+    @job_postings = JobPosting.includes(:user).order(created_at: :desc)
   end
 
 

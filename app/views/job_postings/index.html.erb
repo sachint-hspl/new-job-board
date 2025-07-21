@@ -1,7 +1,11 @@
-<h1 class="text-2xl font-bold mb-6 text-center">Job Listings</h1>
+<!-- app/views/job_postings/index.html.erb -->
+
+<h1 class="text-3xl font-bold text-center mb-8">Welcome to Job Board</h1>
 
 <div class="flex justify-end mb-4">
-  <%= link_to 'Post New Job', new_job_posting_path, class: "bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700" %>
+  <% if user_signed_in? && current_user.has_role?('EMPLOYER') %>
+    <%= link_to 'Post New Job', new_job_posting_path, class: "bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700" %>
+  <% end %>
 </div>
 
 <table class="min-w-full bg-white shadow rounded overflow-hidden">
@@ -19,9 +23,16 @@
         <td class="px-6 py-4"><%= job.title %></td>
         <td class="px-6 py-4"><%= job.location %></td>
         <td class="px-6 py-4"><%= job.user&.email || "N/A" %></td>
-        <td class="px-6 py-4 space-x-2">
-          <%= link_to 'View', job_posting_path(job), class: "text-blue-600 hover:underline" %>
-          <%= link_to 'Edit', edit_job_posting_path(job), class: "text-yellow-600 hover:underline" if current_user == job.user %>
+        <td class="px-6 py-4">
+          <div class="flex items-center space-x-3">
+            <%= link_to '👁️', job_posting_path(job), class: "text-blue-600 hover:underline text-lg" %>
+            <% if user_signed_in? && (current_user == job.user || current_user.has_role?('ADMIN')) %>
+              <%= link_to '✏️', edit_job_posting_path(job), class: "text-yellow-600 hover:underline text-lg" %>
+              <%= button_to '🗑️', job_posting_path(job), method: :delete,
+                              data: { confirm: 'Are you sure?' },
+                              class: "text-red-600 hover:underline text-lg p-0 bg-transparent border-none" %>
+            <% end %>
+          </div>
         </td>
       </tr>
     <% end %>
