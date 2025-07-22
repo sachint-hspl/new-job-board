@@ -100,10 +100,10 @@ test:
 #   url: <%= ENV['DATABASE_URL'] %>
 
 production:
-  primary: &primary_production
-    <<: *default
-    database: new_job_board_production
-    username: new_job_board
-    password: <%= ENV["NEW_JOB_BOARD_DATABASE_PASSWORD"] %>
-    host: <%= ENV.fetch("DB_HOST", "localhost") %> # ✅ Add this line
-    port: <%= ENV.fetch("DB_PORT", 5432) %> 
+  <<: *default
+  database: <%= ENV["DB_NAME"] %>
+  username: <%= ENV["DB_USER"] %>
+  password: <%= ENV["DB_PASSWORD"] %>
+  host: <%= ENV["DB_HOST"] %>
+  port: <%= ENV.fetch("DB_PORT", 5432) %>
+  sslmode: require
