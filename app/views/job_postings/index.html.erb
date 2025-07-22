@@ -12,6 +12,7 @@
   <thead class="bg-gray-100 text-left text-sm uppercase font-semibold text-gray-700">
     <tr>
       <th class="px-6 py-4">Title</th>
+      <th class="px-6 py-4">Description</th>
       <th class="px-6 py-4">Location</th>
       <th class="px-6 py-4">Posted By</th>
       <th class="px-6 py-4">Actions</th>
@@ -21,6 +22,7 @@
     <% @job_postings.each do |job| %>
       <tr class="border-b hover:bg-gray-50">
         <td class="px-6 py-4"><%= job.title %></td>
+        <td class="px-6 py-4"><%= job.description %></td>
         <td class="px-6 py-4"><%= job.location %></td>
         <td class="px-6 py-4"><%= job.user&.email || "N/A" %></td>
         <td class="px-6 py-4">
@@ -38,3 +40,8 @@
     <% end %>
   </tbody>
 </table>
+
+<!-- Pagination -->
+<div class="mt-6">
+  <%= paginate @job_postings %>
+</div>

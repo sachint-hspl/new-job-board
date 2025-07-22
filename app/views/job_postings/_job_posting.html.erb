@@ -31,5 +31,10 @@
       <p><%= job_posting.user.email %></p>
     </div>
 
+    <div>
+      <p class="text-sm text-gray-500 font-semibold uppercase">Created At</p>
+      <p><%= time_ago_in_words(job_posting.created_at) %> ago</p>
+    </div>
+
   </div>
 </div>

@@ -7,6 +7,7 @@ class User < ApplicationRecord
   has_many :user_roles, dependent: :destroy
   has_many :roles, through: :user_roles
   has_many :job_postings
+  has_many :job_applications
 
   attr_accessor :name
 
