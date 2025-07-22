@@ -95,6 +95,15 @@ test:
 #     database: new_job_board_production_cable
 #     migrations_paths: db/cable_migrate
 
+# production:
+#   <<: *default
+#   url: <%= ENV['DATABASE_URL'] %>
+
 production:
-  <<: *default
-  url: <%= ENV['DATABASE_URL'] %>
+  primary: &primary_production
+    <<: *default
+    database: new_job_board_production
+    username: new_job_board
+    password: <%= ENV["NEW_JOB_BOARD_DATABASE_PASSWORD"] %>
+    host: <%= ENV.fetch("DB_HOST", "localhost") %> # ✅ Add this line
+    port: <%= ENV.fetch("DB_PORT", 5432) %> 
