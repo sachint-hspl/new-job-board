@@ -66,11 +66,11 @@ gem "devise", "~> 4.9"
 gem "tailwindcss-rails"
 gem 'kaminari'
 
-ruby '3.2.2' # or your version
+ruby '3.2.4' # or your version
 
 # Use PostgreSQL in production
 group :production do
-  gem 'pg'
+  gem "pg", "~> 1.4"
 end
 
 
