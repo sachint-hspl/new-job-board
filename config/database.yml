@@ -100,12 +100,24 @@ test:
 #   url: <%= ENV['DATABASE_URL'] %>
 
 production:
-  adapter: postgresql
-  encoding: unicode
-  pool: <%= ENV.fetch("RAILS_MAX_THREADS", 5) %>
-  database: <%= ENV["DB_NAME"] %>
-  username: <%= ENV["DB_USER"] %>
-  password: <%= ENV["DB_PASSWORD"] %>
-  host: <%= ENV["DB_HOST"] %>
-  port: <%= ENV.fetch("DB_PORT", 5432) %>
-  sslmode: require
+  primary:
+    adapter: postgresql
+    encoding: unicode
+    database: <%= ENV["DB_NAME"] %>
+    username: <%= ENV["DB_USER"] %>
+    password: <%= ENV["DB_PASSWORD"] %>
+    host: <%= ENV["DB_HOST"] %>
+    port: <%= ENV.fetch("DB_PORT", 5432) %>
+    sslmode: require
+    pool: <%= ENV.fetch("RAILS_MAX_THREADS", 5) %>
+
+  cable:
+    adapter: postgresql
+    encoding: unicode
+    database: <%= ENV["DB_NAME"] %>
+    username: <%= ENV["DB_USER"] %>
+    password: <%= ENV["DB_PASSWORD"] %>
+    host: <%= ENV["DB_HOST"] %>
+    port: <%= ENV.fetch("DB_PORT", 5432) %>
+    sslmode: require
+    pool: <%= ENV.fetch("RAILS_MAX_THREADS", 5) %>
