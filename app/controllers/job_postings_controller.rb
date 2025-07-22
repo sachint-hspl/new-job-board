@@ -14,11 +14,15 @@ class JobPostingsController < ApplicationController
   # end
 
   def index
-    @job_postings = JobPosting.includes(:user).order(created_at: :desc)
+    # @job_postings = JobPosting.includes(:user).order(created_at: :desc)
+    @job_postings = JobPosting.order(created_at: :desc).page(params[:page]).per(10)
   end
 
 
-  def show; end
+  def show; 
+    @job_posting = JobPosting.find(params[:id])
+    @applications = @job_posting.job_applications.order(created_at: :desc).page(params[:page]).per(5)
+  end
 
   def new
     @job_posting = JobPosting.new

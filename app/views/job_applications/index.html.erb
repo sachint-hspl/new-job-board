@@ -1,0 +1,35 @@
+
+<% if @applications.present? && @applications.any? %>
+<h2 class="text-xl font-bold m-4 mb-6 text-center">Applied Job Applications</h2>
+  <table class="min-w-full border text-sm">
+    <thead>
+      <tr class="bg-gray-100 text-left">
+        <th class="px-4 py-2 border">Name</th>
+        <th class="px-4 py-2 border">Email</th>
+        <th class="px-4 py-2 border">Submitted</th>
+        <th class="px-4 py-2 border">Resume</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @applications.each do |application| %>
+        <tr>
+          <td class="px-4 py-2 border"><%= application.name %></td>
+          <td class="px-4 py-2 border"><%= application.email %></td>
+          <td class="px-4 py-2 border"><%= time_ago_in_words(application.created_at) %> ago</td>
+          <td class="px-4 py-2 border">
+            <%= link_to "Download", rails_blob_path(application.resume, disposition: "attachment"), class: "text-blue-600 underline" %>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+
+  <!-- Pagination -->
+  <div class="mt-6">
+    <%= paginate @applications %>
+  </div>
+  <% else %>
+    <div class="flex items-center justify-center h-[50vh]">
+      <p class="text-gray-500 text-lg">No applications received yet.</p>
+    </div>
+  <% end %>

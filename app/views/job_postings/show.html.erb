@@ -13,4 +13,14 @@
               data: { turbo_confirm: "Are you sure?" },
               class: "bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600" %>
   <% end %>
+  <% if user_signed_in? && current_user.has_role?("JOB_SEEKER") %>
+  <% if @job_posting.job_applications.exists?(user: current_user) %>
+      <span class="text-green-600 font-semibold px-4 py-2">✅ Already Submitted</span>
+    <% else %>
+      <%= link_to "Apply Now", new_job_posting_job_application_path(@job_posting), class: "bg-green-500 text-white px-4 py-2 rounded-lg hover:bg-green-600 transition" %>
+    <% end %>
+  <% end %>
+  <% if user_signed_in? && (current_user == @job_posting.user || current_user.has_role?('EMPLOYER')) %>
+    <%= link_to "View Applications", job_posting_job_applications_path(@job_posting), class: "bg-green-500 text-white px-4 py-2 rounded-lg hover:bg-green-600 transition" %>
+  <% end %>
 </div>

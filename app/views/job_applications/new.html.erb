@@ -1,0 +1,31 @@
+<!-- app/views/job_applications/new.html.erb -->
+<h2>Apply for <%= @job_posting.title %></h2>
+
+<%= form_with model: [@job_posting, @job_application], local: true, html: { multipart: true } do |f| %>
+  <% if @job_application.errors.any? %>
+    <div class="text-red-600">
+      <ul>
+        <% @job_application.errors.full_messages.each do |msg| %>
+          <li><%= msg %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="mb-4">
+    <%= f.label :name %><br>
+    <%= f.text_field :name, class: "border p-2 w-full" %>
+  </div>
+
+  <div class="mb-4">
+    <%= f.label :email %><br>
+    <%= f.email_field :email, class: "border p-2 w-full" %>
+  </div>
+
+  <div class="mb-4">
+    <%= f.label :resume %><br>
+    <%= f.file_field :resume, class: "border p-2 w-full" %>
+  </div>
+
+  <%= f.submit "Submit Application", class: "bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded" %>
+<% end %>
