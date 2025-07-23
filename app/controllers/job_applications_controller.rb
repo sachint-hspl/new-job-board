@@ -26,15 +26,14 @@ class JobApplicationsController < ApplicationController
 
     def index
         @job_posting = JobPosting.find(params[:job_posting_id])
-        @applications = @job_posting.job_applications.order(created_at: :desc).page(params[:page]).per(10)
 
-        if current_user.has_role?('EMPLOYER')  && @job_posting.user_id == current_user.id
-            @job_applications = @job_posting.job_applications.includes(:user)
+        if current_user.has_role?('EMPLOYER') && @job_posting.user_id == current_user.id
+            @q = @job_posting.job_applications.ransack(params[:q])
+            @applications = @q.result.includes(:user).order(created_at: :desc).page(params[:page]).per(2)
         else
             redirect_to root_path, alert: "Access denied or invalid job posting."
         end
     end
-
 
     private
 

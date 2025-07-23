@@ -1,35 +1,50 @@
+<!-- Email Search Form -->
+<div class="max-w-md mx-auto my-6">
+  <%= search_form_for @q, url: job_posting_job_applications_path(@job_posting), method: :get, class: "flex space-x-2" do |f| %>
+    <%= f.label :email_cont, "Search by Email", class: "sr-only" %>
+    <%= f.search_field :email_cont, placeholder: "Enter email", class: "w-full border rounded px-3 py-2 shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500" %>
+    <%= f.submit "Search", class: "bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 transition" %>
+  <% end %>
+</div>
 
 <% if @applications.present? && @applications.any? %>
-<h2 class="text-xl font-bold m-4 mb-6 text-center">Applied Job Applications</h2>
-  <table class="min-w-full border text-sm">
-    <thead>
-      <tr class="bg-gray-100 text-left">
-        <th class="px-4 py-2 border">Name</th>
-        <th class="px-4 py-2 border">Email</th>
-        <th class="px-4 py-2 border">Submitted</th>
-        <th class="px-4 py-2 border">Resume</th>
-      </tr>
-    </thead>
-    <tbody>
-      <% @applications.each do |application| %>
+  <h2 class="text-xl font-bold mb-6 text-center">Applied Job Applications</h2>
+  
+  <div class="overflow-x-auto px-4">
+    <table class="min-w-full divide-y divide-gray-200 shadow-md rounded-lg overflow-hidden">
+      <thead class="bg-gray-100 text-gray-700 text-sm uppercase tracking-wider">
         <tr>
-          <td class="px-4 py-2 border"><%= application.name %></td>
-          <td class="px-4 py-2 border"><%= application.email %></td>
-          <td class="px-4 py-2 border"><%= time_ago_in_words(application.created_at) %> ago</td>
-          <td class="px-4 py-2 border">
-            <%= link_to "Download", rails_blob_path(application.resume, disposition: "attachment"), class: "text-blue-600 underline" %>
-          </td>
+          <th class="px-6 py-3 text-left">Name</th>
+          <th class="px-6 py-3 text-left">Email</th>
+          <th class="px-6 py-3 text-left">Submitted</th>
+          <th class="px-6 py-3 text-left">Resume</th>
         </tr>
-      <% end %>
-    </tbody>
-  </table>
+      </thead>
+      <tbody class="bg-white divide-y divide-gray-100 text-gray-800 text-sm">
+        <% @applications.each do |application| %>
+          <tr class="hover:bg-gray-50 transition">
+            <td class="px-6 py-4"><%= application.name %></td>
+            <td class="px-6 py-4"><%= application.email %></td>
+            <td class="px-6 py-4"><%= time_ago_in_words(application.created_at) %> ago</td>
+            <td class="px-6 py-4">
+              <% if application.resume.attached? %>
+                <%= link_to "Download", rails_blob_path(application.resume, disposition: "attachment"), class: "text-blue-600 hover:text-blue-800 underline font-medium" %>
+              <% else %>
+                <span class="text-gray-400 italic">No Resume</span>
+              <% end %>
+            </td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
 
   <!-- Pagination -->
-  <div class="mt-6">
+  <div class="mt-6 flex justify-center">
     <%= paginate @applications %>
   </div>
-  <% else %>
-    <div class="flex items-center justify-center h-[50vh]">
-      <p class="text-gray-500 text-lg">No applications received yet.</p>
-    </div>
-  <% end %>
+<% else %>
+  <div class="flex items-center justify-center h-[50vh]">
+    <p class="text-gray-500 text-lg">No applications received yet.</p>
+  </div>
+<% end %>

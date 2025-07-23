@@ -1,41 +1,82 @@
-<!-- app/views/job_postings/index.html.erb -->
+<h1 class="text-2xl font-bold mb-6 text-center">Job Listings</h1>
 
-<h1 class="text-3xl font-bold text-center mb-8">Welcome to Job Board</h1>
+<%= search_form_for @q, url: job_postings_path, method: :get, class: "mb-6" do |f| %>
+  <div class="grid grid-cols-1 md:grid-cols-5 gap-4 items-end">
+    
+    <!-- Keyword Search -->
+    <div>
+      <%= f.label :title_or_location_or_description_cont, "Search by Keyword", class: "block text-sm font-medium text-gray-700" %>
+      <%= f.search_field :title_or_location_or_description_cont, class: "mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm" %>
+    </div>
 
-<div class="flex justify-end mb-4">
-  <% if user_signed_in? && current_user.has_role?('EMPLOYER') %>
-    <%= link_to 'Post New Job', new_job_posting_path, class: "bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700" %>
-  <% end %>
-</div>
+    <!-- Job Type -->
+    <div>
+      <%= f.label :job_type_eq, "Filter by Job Type", class: "block text-sm font-medium text-gray-700" %>
+      <%= f.select :job_type_eq, JobPosting.distinct.pluck(:job_type).compact.sort, { include_blank: "All" }, class: "mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm" %>
+    </div>
 
-<table class="min-w-full bg-white shadow rounded overflow-hidden">
-  <thead class="bg-gray-100 text-left text-sm uppercase font-semibold text-gray-700">
+    <!-- Date -->
+    <div>
+      <%= f.label :created_at_gteq, "Posted After", class: "block text-sm font-medium text-gray-700" %>
+      <%= f.date_field :created_at_gteq, class: "mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm" %>
+    </div>
+
+    <!-- Search & Clear -->
+    <div class="flex gap-2">
+      <%= f.submit "Search", class: "bg-blue-600 hover:bg-blue-700 text-white font-semibold px-4 py-2 rounded w-full" %>
+      <%= link_to "Clear", job_postings_path, class: "bg-gray-300 hover:bg-gray-400 text-gray-900 px-4 py-2 rounded w-full text-center" %>
+    </div>
+
+    <!-- Post New Job (Only for EMPLOYER) -->
+    <% if user_signed_in? && current_user.has_role?('EMPLOYER') %>
+      <div>
+        <%= link_to 'Post New Job', new_job_posting_path, class: "block bg-green-600 hover:bg-green-700 text-white font-semibold px-4 py-2 rounded text-center w-full" %>
+      </div>
+    <% end %>
+
+  </div>
+<% end %>
+
+
+<!-- Job Listings Table -->
+<table class="min-w-full divide-y divide-gray-200 shadow rounded-lg overflow-hidden">
+  <thead class="bg-gray-50">
     <tr>
-      <th class="px-6 py-4">Title</th>
-      <th class="px-6 py-4">Description</th>
-      <th class="px-6 py-4">Location</th>
-      <th class="px-6 py-4">Posted By</th>
-      <th class="px-6 py-4">Actions</th>
+      <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Title</th>
+      <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Location</th>
+      <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Job Type</th>
+      <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Posted On</th>
+      <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
+      <% if user_signed_in? && current_user == @job_postings %>
+        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Applications</th>
+      <% end %>  
     </tr>
   </thead>
-  <tbody class="text-gray-700 text-sm">
+  <tbody class="bg-white divide-y divide-gray-200">
     <% @job_postings.each do |job| %>
-      <tr class="border-b hover:bg-gray-50">
-        <td class="px-6 py-4"><%= job.title %></td>
-        <td class="px-6 py-4"><%= job.description %></td>
-        <td class="px-6 py-4"><%= job.location %></td>
-        <td class="px-6 py-4"><%= job.user&.email || "N/A" %></td>
-        <td class="px-6 py-4">
-          <div class="flex items-center space-x-3">
-            <%= link_to '👁️', job_posting_path(job), class: "text-blue-600 hover:underline text-lg" %>
-            <% if user_signed_in? && (current_user == job.user || current_user.has_role?('ADMIN')) %>
-              <%= link_to '✏️', edit_job_posting_path(job), class: "text-yellow-600 hover:underline text-lg" %>
-              <%= button_to '🗑️', job_posting_path(job), method: :delete,
-                              data: { confirm: 'Are you sure?' },
-                              class: "text-red-600 hover:underline text-lg p-0 bg-transparent border-none" %>
-            <% end %>
-          </div>
+      <tr>
+        <td class="px-6 py-4 whitespace-nowrap"><%= job.title %></td>
+        <td class="px-6 py-4 whitespace-nowrap"><%= job.location %></td>
+        <td class="px-6 py-4 whitespace-nowrap"><%= job.job_type.titleize %></td>
+        <td class="px-6 py-4 whitespace-nowrap"><%= job.created_at.strftime("%b %d, %Y") %></td>
+        <td class="px-6 py-4 whitespace-nowrap space-x-2">
+          <%= link_to "View", job_posting_path(job), class: "text-indigo-600 hover:underline" %>
+          <% if policy(job).edit? %>
+            <%= link_to "Edit", edit_job_posting_path(job), class: "text-blue-600 hover:underline" %>
+          <% end %>
+          <% if policy(job).destroy? %>
+            <%= link_to "Delete", job_posting_path(job), method: :delete, data: { confirm: "Are you sure?" }, class: "text-red-600 hover:underline" %>
+          <% end %>
         </td>
+        <% if user_signed_in? && current_user == job.user %>
+          <td class="px-6 py-4 whitespace-nowrap">
+            <% if user_signed_in? && current_user == job.user %>
+              <%= link_to "View Applications", job_posting_job_applications_path(job), class: "bg-green-500 text-white px-4 py-2 rounded-lg hover:bg-green-600 transition" %>
+            <% else %>
+              <button disabled class="bg-gray-300 text-gray-600 px-4 py-2 rounded-lg cursor-not-allowed">View Applications</button>
+            <% end %>
+          </td>
+        <% end %>
       </tr>
     <% end %>
   </tbody>

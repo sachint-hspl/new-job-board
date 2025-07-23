@@ -6,13 +6,14 @@ class JobPostingsController < ApplicationController
   include Pundit
 
   def index
-    @job_postings = JobPosting.order(created_at: :desc).page(params[:page]).per(10)
+    @q = JobPosting.ransack(params[:q])
+    @job_postings = @q.result.includes(:user).order(created_at: :desc).page(params[:page]).per(2)
   end
 
 
   def show; 
     @job_posting = JobPosting.find(params[:id])
-    @applications = @job_posting.job_applications.order(created_at: :desc).page(params[:page]).per(5)
+    @applications = @job_posting.job_applications.order(created_at: :desc).page(params[:page]).per(2)
   end
 
   def new
@@ -31,7 +32,9 @@ class JobPostingsController < ApplicationController
     end
   end
 
-  def edit; end
+  def edit; 
+    authorize @job_postingx
+  end
 
   def update
     authorize @job_posting

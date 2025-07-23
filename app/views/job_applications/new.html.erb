@@ -1,31 +1,36 @@
-<!-- app/views/job_applications/new.html.erb -->
-<h2>Apply for <%= @job_posting.title %></h2>
+<div class="max-w-xl mx-auto mt-10 bg-white shadow-md rounded-lg p-8">
+  <h2 class="text-2xl font-semibold mb-6 text-gray-800">Apply for <%= @job_posting.title %></h2>
 
-<%= form_with model: [@job_posting, @job_application], local: true, html: { multipart: true } do |f| %>
-  <% if @job_application.errors.any? %>
-    <div class="text-red-600">
-      <ul>
-        <% @job_application.errors.full_messages.each do |msg| %>
-          <li><%= msg %></li>
-        <% end %>
-      </ul>
+  <%= form_with model: [@job_posting, @job_application], local: true, html: { multipart: true } do |f| %>
+    
+    <% if @job_application.errors.any? %>
+      <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-6">
+        <ul class="list-disc pl-5">
+          <% @job_application.errors.full_messages.each do |msg| %>
+            <li><%= msg %></li>
+          <% end %>
+        </ul>
+      </div>
+    <% end %>
+
+    <div class="mb-4">
+      <%= f.label :name, class: "block text-gray-700 font-medium mb-2" %>
+      <%= f.text_field :name, class: "w-full border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-blue-400" %>
     </div>
+
+    <div class="mb-4">
+      <%= f.label :email, class: "block text-gray-700 font-medium mb-2" %>
+      <%= f.email_field :email, class: "w-full border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-blue-400" %>
+    </div>
+
+    <div class="mb-6">
+      <%= f.label :resume, class: "block text-gray-700 font-medium mb-2" %>
+      <%= f.file_field :resume, class: "w-full border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-blue-400" %>
+    </div>
+
+    <div class="flex justify-end">
+      <%= f.submit "Submit Application", class: "bg-blue-600 hover:bg-blue-700 text-white font-semibold px-6 py-2 rounded shadow-md transition duration-300" %>
+    </div>
+
   <% end %>
-
-  <div class="mb-4">
-    <%= f.label :name %><br>
-    <%= f.text_field :name, class: "border p-2 w-full" %>
-  </div>
-
-  <div class="mb-4">
-    <%= f.label :email %><br>
-    <%= f.email_field :email, class: "border p-2 w-full" %>
-  </div>
-
-  <div class="mb-4">
-    <%= f.label :resume %><br>
-    <%= f.file_field :resume, class: "border p-2 w-full" %>
-  </div>
-
-  <%= f.submit "Submit Application", class: "bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded" %>
-<% end %>
+</div>

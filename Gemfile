@@ -78,3 +78,5 @@ end
 
 
 gem "pundit", "~> 2.5"
+
+gem "ransack", "~> 4.3"
