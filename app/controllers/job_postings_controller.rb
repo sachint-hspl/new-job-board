@@ -3,18 +3,9 @@ class JobPostingsController < ApplicationController
   before_action :authenticate_user!, except: [:index, :show]
   before_action :set_job_posting, only: %i[show edit update destroy]
   before_action :authorize_employer!, only: %i[new create edit update destroy]
-
-
-  # def index
-  #   @job_postings = JobPosting.all
-  # end
-
-  # def index
-  #   @job_postings = JobPosting.includes(:user).all
-  # end
+  include Pundit
 
   def index
-    # @job_postings = JobPosting.includes(:user).order(created_at: :desc)
     @job_postings = JobPosting.order(created_at: :desc).page(params[:page]).per(10)
   end
 
@@ -26,11 +17,12 @@ class JobPostingsController < ApplicationController
 
   def new
     @job_posting = JobPosting.new
+    authorize @job_posting
   end
 
   def create
     @job_posting = current_user.job_postings.build(job_posting_params)
-
+    authorize @job_posting
     if @job_posting.save
       redirect_to job_postings_path, notice: "Job was successfully created."
     else
@@ -42,6 +34,7 @@ class JobPostingsController < ApplicationController
   def edit; end
 
   def update
+    authorize @job_posting
     if @job_posting.update(job_posting_params)
       redirect_to job_posting_path(@job_posting), notice: "Job updated successfully."
     else
@@ -51,6 +44,7 @@ class JobPostingsController < ApplicationController
   end
 
   def destroy
+    authorize @job_posting
     if @job_posting.destroy
       redirect_to job_postings_path, notice: "Job deleted successfully."
     else

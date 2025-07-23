@@ -3,12 +3,12 @@
 <%= render @job_posting %>
 
 <div class="flex justify-center gap-4 mt-8">
-  <% if user_signed_in? && current_user.roles.exists?(name: 'EMPLOYER') %>
+  <% if user_signed_in? && policy(@job_posting).update? %>
     <%= link_to "✏️ Edit", edit_job_posting_path(@job_posting), class: "bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition" %>
   <% end %>
     <%= link_to "🔙 Back", job_postings_path, class: "bg-gray-500 text-white px-4 py-2 rounded-lg hover:bg-gray-600 transition" %>
 
-  <% if user_signed_in? && current_user.roles.exists?(name: 'EMPLOYER') %>
+  <% if user_signed_in? && policy(@job_posting).destroy? %>
   <%= button_to "🗑️ Delete", @job_posting, method: :delete,
               data: { turbo_confirm: "Are you sure?" },
               class: "bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600" %>

@@ -76,3 +76,5 @@ end
 
 
 
+
+gem "pundit", "~> 2.5"
