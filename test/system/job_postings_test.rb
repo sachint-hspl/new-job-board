@@ -1,51 +1,53 @@
-require "application_system_test_case"
+# frozen_string_literal: true
+
+require 'application_system_test_case'
 
 class JobPostingsTest < ApplicationSystemTestCase
   setup do
     @job_posting = job_postings(:one)
   end
 
-  test "visiting the index" do
+  test 'visiting the index' do
     visit job_postings_url
-    assert_selector "h1", text: "Job postings"
+    assert_selector 'h1', text: 'Job postings'
   end
 
-  test "should create job posting" do
+  test 'should create job posting' do
     visit job_postings_url
-    click_on "New job posting"
+    click_on 'New job posting'
 
-    fill_in "Description", with: @job_posting.description
-    fill_in "Job type", with: @job_posting.job_type
-    fill_in "Location", with: @job_posting.location
-    fill_in "Salary range", with: @job_posting.salary_range
-    fill_in "Title", with: @job_posting.title
-    fill_in "User", with: @job_posting.user_id
-    click_on "Create Job posting"
+    fill_in 'Description', with: @job_posting.description
+    fill_in 'Job type', with: @job_posting.job_type
+    fill_in 'Location', with: @job_posting.location
+    fill_in 'Salary range', with: @job_posting.salary_range
+    fill_in 'Title', with: @job_posting.title
+    fill_in 'User', with: @job_posting.user_id
+    click_on 'Create Job posting'
 
-    assert_text "Job posting was successfully created"
-    click_on "Back"
+    assert_text 'Job posting was successfully created'
+    click_on 'Back'
   end
 
-  test "should update Job posting" do
+  test 'should update Job posting' do
     visit job_posting_url(@job_posting)
-    click_on "Edit this job posting", match: :first
+    click_on 'Edit this job posting', match: :first
 
-    fill_in "Description", with: @job_posting.description
-    fill_in "Job type", with: @job_posting.job_type
-    fill_in "Location", with: @job_posting.location
-    fill_in "Salary range", with: @job_posting.salary_range
-    fill_in "Title", with: @job_posting.title
-    fill_in "User", with: @job_posting.user_id
-    click_on "Update Job posting"
+    fill_in 'Description', with: @job_posting.description
+    fill_in 'Job type', with: @job_posting.job_type
+    fill_in 'Location', with: @job_posting.location
+    fill_in 'Salary range', with: @job_posting.salary_range
+    fill_in 'Title', with: @job_posting.title
+    fill_in 'User', with: @job_posting.user_id
+    click_on 'Update Job posting'
 
-    assert_text "Job posting was successfully updated"
-    click_on "Back"
+    assert_text 'Job posting was successfully updated'
+    click_on 'Back'
   end
 
-  test "should destroy Job posting" do
+  test 'should destroy Job posting' do
     visit job_posting_url(@job_posting)
-    click_on "Destroy this job posting", match: :first
+    click_on 'Destroy this job posting', match: :first
 
-    assert_text "Job posting was successfully destroyed"
+    assert_text 'Job posting was successfully destroyed'
   end
 end

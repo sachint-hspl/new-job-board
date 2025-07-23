@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class JobPostingPolicy < ApplicationPolicy
   def index?
     true # All users can list job postings
