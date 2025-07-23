@@ -20,4 +20,8 @@ class User < ApplicationRecord
     # roles << role if role && !has_role?(role.name)
     user_roles.find_or_create_by(role:)
   end
+
+  def self.ransackable_attributes(auth_object = nil)
+    %w[email]
+  end
 end
