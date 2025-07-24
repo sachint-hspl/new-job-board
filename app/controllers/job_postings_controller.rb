@@ -23,7 +23,7 @@ class JobPostingsController < ApplicationController
   end
 
   def edit
-    authorize @job_postingx
+    authorize @job_posting
   end
 
   def create
